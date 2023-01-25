@@ -3,7 +3,8 @@ package com.jvtpe.controller;
 import com.jvtpe.domain.Student;
 import com.jvtpe.dto.StudentDTO;
 import com.jvtpe.service.StudentService;
-import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/students")
 public class StudentConttoller {
+
+    Logger logger = LoggerFactory.getLogger(StudentConttoller.class);
 
     @Autowired
     private StudentService studentService;
@@ -126,6 +130,14 @@ public class StudentConttoller {
 
         StudentDTO studentDTO = studentService.findStudentDTOById(id);
         return ResponseEntity.ok(studentDTO);
+
+    }
+
+    @GetMapping("/welcome")
+    public String welcome(HttpServletRequest httpServletRequest){
+
+        logger.warn("-------------------- Welcome {}", httpServletRequest.getServletPath());
+        return "Student Controller";
 
     }
 
